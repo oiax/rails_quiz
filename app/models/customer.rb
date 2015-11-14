@@ -10,26 +10,16 @@ class Customer < ActiveRecord::Base
   has_many :personal_phones, -> { where(address_id: nil).order(:id) },
     class_name: 'Phone', autosave: true
 
-  attr_writer :email_addresses
-
   before_validation do
-    if @email_addresses
-      @email_addresses.each_with_index do |a, i|
-        @email_addresses.each_with_index do |b, j|
-          if i != j && a.present? && a.downcase == b.downcase
-            emails[i].duplicated = true
-          end
+    emails.each_with_index do |e0, i|
+      addr = e0.address.try(:downcase) || next
+      emails.each_with_index do |e1, j|
+        next if i == j
+        if addr == e1.address.try(:downcase)
+          emails[i].duplicated = true
         end
-      end
-
-      if persisted?
-        @email_addresses.each_with_index do |a, i|
-          emails.each_with_index do |e, j|
-            address = e.address_was
-            if i != j && address.present? && address.downcase == a.downcase
-              emails[i].exchanging = true
-            end
-          end
+        if addr == e1.address_was.try(:downcase)
+          emails[i].exchanging = true
         end
       end
     end

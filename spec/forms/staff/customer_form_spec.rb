@@ -44,8 +44,21 @@ describe Staff::CustomerForm do
     end
 
     example 'メールアドレスが重複して指定されたらエラー（大文字・小文字）' do
-      email2 = email0.merge(address: email0[:address].upcase)
-      form.assign_attributes(params(emails: { '0' => email0, '1' => email2 }))
+      e0 = { address: 'foo@exmaple.com' }
+      e1 = { address: 'FOO@exmaple.com' }
+      form.assign_attributes(params(emails: { '0' => e0, '1' => e1 }))
+
+      expect(form.save).to be_falsey
+      expect(form.customer.emails[0].errors.full_messages[0])
+        .to eq('メールアドレスが重複しています。')
+      expect(form.customer.emails[1].errors.full_messages[0])
+        .to eq('メールアドレスが重複しています。')
+    end
+
+    example 'メールアドレスが重複して指定されたらエラー（全角・半角）' do
+      e0 = { address: 'foo@exmaple.com' }
+      e1 = { address: 'ｆｏｏ@exmaple.com' }
+      form.assign_attributes(params(emails: { '0' => e0, '1' => e1 }))
 
       expect(form.save).to be_falsey
       expect(form.customer.emails[0].errors.full_messages[0])
