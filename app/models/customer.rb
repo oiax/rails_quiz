@@ -21,13 +21,14 @@ class Customer < ActiveRecord::Base
           end
         end
       end
-    end
 
-    if persisted?
-      emails.each_with_index do |e, i|
-        @email_addresses.each_with_index do |a, j|
-          if i != j && e.address.present? && e.address.downcase == a.downcase
-            emails[i].exchanging = true
+      if persisted?
+        @email_addresses.each_with_index do |a, i|
+          emails.each_with_index do |e, j|
+            address = e.address_was
+            if i != j && address.present? && address.downcase == a.downcase
+              emails[i].exchanging = true
+            end
           end
         end
       end
