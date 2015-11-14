@@ -43,16 +43,4 @@ class Customer < ActiveRecord::Base
   after_save do
     emails.map(&:resave!)
   end
-
-  def email
-    emails[0].try(:address)
-  end
-
-  def email=(email)
-    if emails.first
-      self.emails[0].address = email
-    else
-      emails.build(address: email)
-    end
-  end
 end

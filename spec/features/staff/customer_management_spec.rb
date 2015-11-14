@@ -24,7 +24,7 @@ feature '職員による顧客管理' do
     click_button '登録'
 
     new_customer = Customer.order(:id).last
-    expect(new_customer.email).to eq('test@example.jp')
+    expect(new_customer.emails[0].address).to eq('test@example.jp')
     expect(new_customer.birthday).to eq(Date.new(1970, 1, 1))
     expect(new_customer.gender).to eq('female')
     expect(new_customer.home_address).to be_nil
@@ -64,7 +64,7 @@ feature '職員による顧客管理' do
     click_button '登録'
 
     new_customer = Customer.order(:id).last
-    expect(new_customer.email).to eq('test@example.jp')
+    expect(new_customer.emails[0].address).to eq('test@example.jp')
     expect(new_customer.birthday).to eq(Date.new(1970, 1, 1))
     expect(new_customer.gender).to eq('female')
     expect(new_customer.home_address.postal_code).to eq('1000001')
@@ -85,7 +85,7 @@ feature '職員による顧客管理' do
     click_button '更新'
 
     customer.reload
-    expect(customer.email).to eq('test@example.jp')
+    expect(customer.emails[0].address).to eq('test@example.jp')
     expect(customer.home_address.postal_code).to eq('9999999')
     expect(customer.work_address.company_name).to eq('テスト')
   end
