@@ -25,6 +25,10 @@ class Customer < ActiveRecord::Base
     end
   end
 
+  after_save do
+    emails.map(&:resave!)
+  end
+
   def email
     emails[0].try(:address)
   end
