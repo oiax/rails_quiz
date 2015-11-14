@@ -13,7 +13,7 @@ feature '職員による顧客管理' do
   scenario '職員が顧客（基本情報のみ）を追加する' do
     click_link '顧客管理'
     first('div.links').click_link '新規登録'
-    fill_in 'メールアドレス', with: 'test@example.jp'
+    fill_in 'form_customer_emails_0_address', with: 'test@example.jp'
     fill_in 'パスワード', with: 'pw'
     fill_in 'form_customer_family_name', with: '試験'
     fill_in 'form_customer_given_name', with: '花子'
@@ -35,7 +35,7 @@ feature '職員による顧客管理' do
     click_link '顧客管理'
     first('div.links').click_link '新規登録'
 
-    fill_in 'メールアドレス', with: 'test@example.jp'
+    fill_in 'form_customer_emails_0_address', with: 'test@example.jp'
     fill_in 'パスワード', with: 'pw'
     fill_in 'form_customer_family_name', with: '試験'
     fill_in 'form_customer_given_name', with: '花子'
@@ -75,7 +75,7 @@ feature '職員による顧客管理' do
     click_link '顧客管理'
     first('table.listing').click_link '編集'
 
-    fill_in 'メールアドレス', with: 'test@example.jp'
+    fill_in 'form_customer_emails_0_address', with: 'test@example.jp'
     within('fieldset#home-address-fields') do
       fill_in '郵便番号', with: '9999999'
     end
