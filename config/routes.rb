@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :admin do
+  get 'application_settings/show'
+  end
+
   config = Rails.application.config.baukis
 
   constraints host: config[:staff][:host] do
@@ -35,6 +39,7 @@ Rails.application.routes.draw do
       root 'top#index'
       get 'login' => 'sessions#new', as: :login
       resource :session, only: [ :create, :destroy ]
+      resource :application_settings, only: [ :show, :update ]
       resources :staff_members do
         resources :staff_events, only: [ :index ]
       end
