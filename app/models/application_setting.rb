@@ -1,7 +1,20 @@
 class ApplicationSetting < ActiveRecord::Base
-  validate do
-    if new_record? && self.class.count > 0
-      errors.add(:base, 'ApplicationSetting must be a singleton object.')
-    end
+  before_save do
+    self.data = ActiveSupport::JSON.encode(dictionary)
+  end
+
+  def get(key)
+    dictionary[key.to_s]
+  end
+
+  def set(key, value)
+    dictionary[key.to_s] = value
+  end
+
+  private
+  def dictionary
+    @dictionary ||= ActiveSupport::JSON.decode(data) if data
+    @dictionary ||= {}
+    @dictionary
   end
 end
