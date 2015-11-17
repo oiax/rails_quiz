@@ -1,10 +1,10 @@
 class Admin::ApplicationSettingsController < Admin::Base
   def show
-    @setting = ApplicationSetting.first!
+    @setting = application_setting
   end
 
   def update
-    @setting = ApplicationSetting.first!
+    @setting = application_setting
     @setting.assign_attributes(setting_params)
     if @setting.save
       flash.notice = 'アプリケーション設定を変更しました。'
