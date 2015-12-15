@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  namespace :admin do
-  get 'application_settings/show'
-  end
-
   config = Rails.application.config.baukis
 
   constraints host: config[:staff][:host] do
